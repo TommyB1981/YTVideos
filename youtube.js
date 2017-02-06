@@ -16,8 +16,8 @@ function youTubeVideos() {
     $.each($('.ytvideo'),function(vID,video){
       var id = $(video).attr('id');
       window.ytvideos[$(video).attr('data-YouTubeID')] = new YT.Player(id, {
-        height: $(video).attr('data-YouTubeW'),
-        width: $(video).attr('data-YouTubeH'),
+        height: $(video).attr('data-YouTubeH'),
+        width: $(video).attr('data-YouTubeW'),
         videoId: $(video).attr('data-YouTubeID'),
         events: {
           'onReady': onPlayerReady,
@@ -31,8 +31,6 @@ function youTubeVideos() {
   window.onPlayerReady = function(event){
     var video = $(event.target.a);
     var id = $(video).attr('data-YouTubeID');
-    ratio = 0.6;
-    $(video).attr('height',($(video).width())*ratio);
     window.setYoutTubeVideoOverlay(id);
   }
 
@@ -58,7 +56,7 @@ function youTubeVideos() {
     return presence;
   }
 
-  // Play video function
+  // Play/Pause video function
   window.youTubePlayPauseVideo = function(currentID,overlay){
     $.each(window.ytvideos,function(vID,video){
       // manage play or pause on selected video
