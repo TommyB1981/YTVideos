@@ -1,4 +1,19 @@
-function youTubeVideos() {
+// TODO: PROBLEMI DA CAPIRE/RISOLVERE
+// 1. Perchè la callback onPlayerReady viene triggerata due volte per player?
+// 2. Perchè la callback onPlayerStateChage non viene triggerata?
+
+function youTubeVideos(options) {
+
+  // Default options
+  var defaultOptions = {
+    overlayWrapperClass: 'ytOverlayWrapper',
+    callbacks: ['StateChange'],
+    overlay: false
+  }
+
+  // options setting
+  if (options) options = $.extend({},defaultOptions,options);
+  else var options = defaultOptions;
 
   // YouTube API loading if not already loaded
   if (!window.yt) {
@@ -10,87 +25,157 @@ function youTubeVideos() {
     })();
   }
 
-  // YouTube API ready callback
-  window.onYouTubeIframeAPIReady = function(){
-    window.ytvideos = {};
-    $.each($('.ytvideo'),function(vID,video){
-      var id = $(video).attr('id');
-      window.ytvideos[$(video).attr('data-YouTubeID')] = new YT.Player(id, {
-        height: $(video).attr('data-YouTubeH'),
-        width: $(video).attr('data-YouTubeW'),
-        videoId: $(video).attr('data-YouTubeID'),
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
+  // overlay setter function
+  function setOverlay() {
+
+    // YouTube overlay setter function
+    window.setYoutTubeVideoOverlay = function(id){
+      // Iframe getting and setting
+      var iframe = $('iframe[data-youtubeID="'+id+'"]');
+      var h = iframe.height();
+      iframe.css({
+        "position": "relative",
+        "z-index": 0
+      });
+      // Overlay wrapper creation/getting and setting
+      var wrapper = null;
+      if (window.youTubeVideoHasOverlayWrapper(id)) wrapper = iframe.parents('.'+options.overlayWrapperClass);
+      else wrapper = iframe.wrap('<div class="'+options.overlayWrapperClass+'"></div>');
+      $(wrapper).append('<div class="overlay"></div>');
+      wrapper.css({
+        "position": "relative"
+      });
+      // Overlay wrapper creation and setting
+      var overlay = $(wrapper).find('.overlay');
+      overlay.css({
+        "position": "absolute",
+        "z-index": 1,
+        "width": "100%",
+        "height": h,
+        "left": 0,
+        "top": 0
+      });
+      $(overlay).on('click',function(e){
+        window.youTubePlayPauseVideo(id,true);
+      });
+    }
+
+    // YouTube overlay wrapper presence getter function
+    window.youTubeVideoHasOverlayWrapper = function(id){
+      var presence = $('iframe[data-youtubeID="'+id+'"]').parents('.'+options.overlayWrapperClass).length > 0 ? true : false;
+      return presence;
+    }
+
+    // YouTube overlay presence getter function
+    window.youTubeVideoHasOverlay = function(id){
+      var presence = $('iframe[data-youtubeID="'+id+'"]').siblings('.overlay').length > 0 ? true : false;
+      return presence;
+    }
+
+    // Play/Pause video function
+    window.youTubePlayPauseVideo = function(currentID,overlay){
+      // console.log("youTubePlayPauseVideo()");
+      $.each(window.ytvideos,function(vID,video){
+        // manage play or pause on selected video
+        if (currentID === vID) {
+          switch (video.getPlayerState()) {
+            // video is unstarted
+            case -1:
+              if (window.youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
+              video.playVideo();
+              break;
+            // video is cued
+            case 5:
+              if (window.youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
+              video.playVideo();
+              break;
+            // video is paused
+            case 2:
+              console.log("pause");
+              if (!window.youTubeVideoHasOverlay(vID)) window.setYoutTubeVideoOverlay(vID);
+              if (overlay) {
+                if (window.youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
+                video.playVideo();
+              }
+              break;
+          }
+        }
+        // otherwise checks other video to stop them if playing
+        else {
+          switch (video.getPlayerState()) {
+            case 1:
+              console.log("stop");
+              if (!window.youTubeVideoHasOverlay(vID)) window.setYoutTubeVideoOverlay(vID);
+              video.pauseVideo();
+              break;
+          }
         }
       });
-    });
+    }
+
   }
 
-  // YouTube onPlayerReady callback
-  window.onPlayerReady = function(event){
-    var video = $(event.target.a);
-    var id = $(video).attr('data-YouTubeID');
-    window.setYoutTubeVideoOverlay(id);
-  }
-
-  // YouTube onPlayerStateChange callback
-  window.onPlayerStateChange = function(event){
-    var id = $(event.target.a).attr('data-youtubeID');
-    if (event.data === 2) window.youTubePlayPauseVideo(id);
-  }
-
-  // YouTube overlay setter function
-  window.setYoutTubeVideoOverlay = function(id){
-    var wrapper = $('iframe[data-youtubeID="'+id+'"]').parent();
-    $(wrapper).append('<div class="overlay"></div>');
-    var overlay = $(wrapper).find('.overlay');
-    $(overlay).on('click',function(e){
-      window.youTubePlayPauseVideo(id,true);
-    });
-  }
-
-  // YouTube overlay presence getter function
-  window.youTubeVideoHasOverlay = function(id){
-    var presence = $('iframe[data-youtubeID="'+id+'"]').siblings('.overlay').length > 0 ? true : false;
-    return presence;
-  }
-
-  // Play/Pause video function
-  window.youTubePlayPauseVideo = function(currentID,overlay){
-    $.each(window.ytvideos,function(vID,video){
-      // manage play or pause on selected video
-      if (currentID === vID) {
-        switch (video.getPlayerState()) {
-          // video is unstarted
-          case -1:
-            if (youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
-            video.playVideo();
+  // YouTube API ready callback
+  window.onYouTubeIframeAPIReady = function(){
+    // Create YouTube API videos instances object
+    window.ytvideos = {};
+    // Create YouTube callbacks functions object
+    window.youtubeEvents = {};
+    // For every user-defined callback to trigger:
+    $.each(options.callbacks,function(id,ev){
+      // Fill YouTube callbacks functions object with user-defined callback functions
+      window.youtubeEvents["onPlayer"+ev] = options["onPlayer"+ev];
+      // If overlay is needed:
+      if (options.overlay) {
+        switch (ev) {
+          // Create Ready and StateChange callbacks functions
+          case "Ready":
+            setOverlay();
+            window["onPlayer"+ev] = function(event){
+              // console.log("API Ready");
+              window.youtubeEvents["onPlayer"+ev](event);
+              window.setYoutTubeVideoOverlay($(event.target.a).data('youtubeid'));
+            }
             break;
-          // video is cued
-          case 5:
-            if (youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
-            video.playVideo();
+          case "StateChange":
+            window["onPlayer"+ev] = function(event){
+              // console.log("API StateChange");
+              window.youtubeEvents["onPlayer"+ev](event);
+              window.youTubePlayPauseVideo($(event.target.a).data('youtubeid'),true);
+            }
             break;
-          // video is paused
-          case 2:
-            if (!youTubeVideoHasOverlay(vID)) window.setYoutTubeVideoOverlay(vID);
-            if (overlay) {
-              if (youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
-              video.playVideo();
+          // Create video callbacks functions other than Ready and StateChange ones
+          default:
+            window["onPlayer"+ev] = function(event){
+              window.youtubeEvents["onPlayer"+ev](event);
             }
             break;
         }
       }
-      // otherwise checks other video to stop them if playing
+      // If overlay not needed:
       else {
-        switch (video.getPlayerState()) {
-          case 1:
-            if (!youTubeVideoHasOverlay(vID)) window.setYoutTubeVideoOverlay(vID);
-            video.pauseVideo();
-            break;
+        // Create video callbacks functions
+        window["onPlayer"+ev] = function(event){
+          window.youtubeEvents["onPlayer"+ev](event);
         }
       }
+    });
+    // Fill YouTube API videos instances object
+    $.each($('.ytvideo'),function(vID,video){
+      // Get video ID
+      var id = $(video).attr('id');
+      // Create YouTube API video instance events object
+      var events = {};
+      // Fill YouTube API video instance events object
+      $.each(options.callbacks,function(evID,ev){
+        events['on'+ev] = window['onPlayer'+ev];
+      });
+      window.ytvideos[$(video).attr('data-youtubeID')] = new YT.Player(id, {
+        height: $(video).attr('data-youtubeH'),
+        width: $(video).attr('data-youtubeW'),
+        videoId: $(video).attr('data-youtubeID'),
+        events: events
+      });
     });
   }
 

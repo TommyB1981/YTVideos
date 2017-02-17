@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>YouTubeVideos</title>
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        // YouTube APi injection
+        var tag = document.createElement('script');
+        tag.src = "https://www.YouTube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var pippo = ["Ready","StateChange"]
+
+        // YouTube API ready callback
+        window.onYouTubeIframeAPIReady = function(){
+          $.each(pippo,function(id,ev){
+            window["onPlayer"+ev] = function(event){
+              console.log(ev);
+            }
+          });
+          // Create YouTube API videos instances object
+          window.ytvideos = {};
+          // Fill YouTube API videos instances object
+          $.each($('.ytvideo'),function(vID,video){
+            // Get video ID
+            var id = $(video).attr('id');
+            window.ytvideos[$(video).attr('data-youtubeID')] = new YT.Player(id, {
+              height: $(video).attr('data-youtubeH'),
+              width: $(video).attr('data-youtubeW'),
+              videoId: $(video).attr('data-youtubeID'),
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+              }
+            });
+          });
+        }
+
+      });
+    </script>
+    <style media="screen">
+      html, html * { margin: 0; padding: 0; }
+      body { background-color: black; }
+      .video { padding: 30px; }
+    </style>
+  </head>
+  <body>
+    <div class="video">
+      <div data-youtubeID="RZgOr6wvv9o" data-youtubeW="100%" data-youtubeH="250" class="ytvideo" id="ytvideoRZgOr6wvv9o"></div>
+  </body>
+</html>
