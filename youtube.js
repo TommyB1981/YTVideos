@@ -15,7 +15,7 @@ function youTubeVideos(options) {
   if (options) options = $.extend({},defaultOptions,options);
   else var options = defaultOptions;
 
-  // YouTube API loading if not already loaded
+  // YouTube API load if not already loaded
   if (!window.yt) {
     (function() {
       var tag = document.createElement('script');
@@ -29,7 +29,7 @@ function youTubeVideos(options) {
   function setOverlay() {
 
     // YouTube overlay setter function
-    window.setYoutTubeVideoOverlay = function(id){
+    window.setYouTubeVideoOverlay = function(id){
       // Iframe getting and setting
       var iframe = $('iframe[data-youtubeID="'+id+'"]');
       var h = iframe.height();
@@ -74,16 +74,10 @@ function youTubeVideos(options) {
 
     // Play/Pause video function
     window.youTubePlayPauseVideo = function(currentID,overlay){
-      // console.log("youTubePlayPauseVideo()");
       $.each(window.ytvideos,function(vID,video){
         // manage play or pause on selected video
         if (currentID === vID) {
           switch (video.getPlayerState()) {
-            // video is unstarted
-            case -1:
-              if (window.youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
-              video.playVideo();
-              break;
             // video is cued
             case 5:
               if (window.youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
@@ -91,7 +85,6 @@ function youTubeVideos(options) {
               break;
             // video is paused
             case 2:
-              console.log("pause");
               if (!window.youTubeVideoHasOverlay(vID)) window.setYoutTubeVideoOverlay(vID);
               if (overlay) {
                 if (window.youTubeVideoHasOverlay(vID)) $('iframe[data-youtubeID="'+vID+'"]').siblings('.overlay').remove();
@@ -121,6 +114,8 @@ function youTubeVideos(options) {
     window.ytvideos = {};
     // Create YouTube callbacks functions object
     window.youtubeEvents = {};
+    // Set overlay funtions set
+    if (options.overlay) setOverlay();
     // For every user-defined callback to trigger:
     $.each(options.callbacks,function(id,ev){
       // Fill YouTube callbacks functions object with user-defined callback functions
@@ -130,16 +125,12 @@ function youTubeVideos(options) {
         switch (ev) {
           // Create Ready and StateChange callbacks functions
           case "Ready":
-            setOverlay();
             window["onPlayer"+ev] = function(event){
-              // console.log("API Ready");
               window.youtubeEvents["onPlayer"+ev](event);
-              window.setYoutTubeVideoOverlay($(event.target.a).data('youtubeid'));
+              window.setYouTubeVideoOverlay($(event.target.a).data('youtubeid'));
             }
-            break;
           case "StateChange":
             window["onPlayer"+ev] = function(event){
-              // console.log("API StateChange");
               window.youtubeEvents["onPlayer"+ev](event);
               window.youTubePlayPauseVideo($(event.target.a).data('youtubeid'),true);
             }
@@ -154,7 +145,7 @@ function youTubeVideos(options) {
       }
       // If overlay not needed:
       else {
-        // Create video callbacks functions
+        // Create YouTube callbacks functions
         window["onPlayer"+ev] = function(event){
           window.youtubeEvents["onPlayer"+ev](event);
         }
@@ -162,14 +153,15 @@ function youTubeVideos(options) {
     });
     // Fill YouTube API videos instances object
     $.each($('.ytvideo'),function(vID,video){
-      // Get video ID
-      var id = $(video).attr('id');
+      // Get video player wrapper ID
+      var id = $(video).attr('player-id');
       // Create YouTube API video instance events object
       var events = {};
       // Fill YouTube API video instance events object
       $.each(options.callbacks,function(evID,ev){
         events['on'+ev] = window['onPlayer'+ev];
       });
+      // Fill YouTube API videos instances object
       window.ytvideos[$(video).attr('data-youtubeID')] = new YT.Player(id, {
         height: $(video).attr('data-youtubeH'),
         width: $(video).attr('data-youtubeW'),
