@@ -1,6 +1,6 @@
 // TODO: PROBLEMI DA CAPIRE/RISOLVERE
-// 1. Perchè la callback onPlayerReady viene triggerata due volte per player?
-// 2. Perchè la callback onPlayerStateChage non viene triggerata?
+// 1. Perchè event.data è null alla riga 134?
+//    Filtrare trigger di window.youTubePlayPauseVideo() allo sto "cued" del video (riga 137).
 
 function youTubeVideos(options) {
 
@@ -132,7 +132,8 @@ function youTubeVideos(options) {
           case "StateChange":
             window["onPlayer"+ev] = function(event){
               window.youtubeEvents["onPlayer"+ev](event);
-              window.youTubePlayPauseVideo($(event.target.a).data('youtubeid'),true);
+              console.log(event);
+              // if (event.data === 5) window.youTubePlayPauseVideo($(event.target.a).data('youtubeid'),true);
             }
             break;
           // Create video callbacks functions other than Ready and StateChange ones
