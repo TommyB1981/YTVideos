@@ -2,6 +2,7 @@ $(document).ready(function(){
   if ($('[class*="yt"]').length > 0 && !window.exportMode) {
     new YTVideos({
       instance:"ytInstance",
+      overlay: true,
       onAPIReady:function(){
         console.log("YouTube Iframe API is ready");
         console.log("--------------------");

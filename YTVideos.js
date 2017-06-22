@@ -11,6 +11,7 @@ YTVideos.prototype = {
     videoWrapperActiveClass: "on",
     instance: null,
     tracking: false,
+    overlay: false,
     onAPIReady: Function(),
     onPlayerReady: Function(),
     onPlayerStateChange: Function()
@@ -66,12 +67,36 @@ YTVideos.prototype = {
     }
     window.onPlayerReady = function(event){
       window[instanceName].fitH();
+      if (window[instanceName].options.overlay) window[instanceName].setOverlay($(event.target.a).attr('yt-id'));
       window[instanceName].triggerEvent('PlayerReady',event);
     }
     window.onPlayerStateChange = function(event){
       window[instanceName].playerStateChange(event);
       window[instanceName].triggerEvent('PlayerStateChange',event);
     }
+  },
+  setOverlay: function(id){
+    console.log("setOverlay");
+    var iframe = $('iframe[yt-id="'+id+'"]');
+    iframe.css({
+      position: "relative",
+      "z-index": 0
+    });
+    var wrapper = iframe.parent();
+    wrapper.css('position','relative');
+    $(wrapper).append('<div class="overlay"></div>');
+    var overlay = $(wrapper).find('.overlay');
+    overlay.css({
+      position: "absolute",
+      "z-index": 1,
+      width: "100%",
+      height: "100%",
+      left: 0,
+      right: 0
+    });
+    $(overlay).on('click',function(e){
+      this.playPauseVideo(id,true);
+    });
   },
   triggerEvent: function(eventName,event){
     // console.log("triggerEvent");
@@ -172,12 +197,22 @@ YTVideos.prototype = {
       // manage play or pause on selected video
       if (currentID === vID) {
         switch (video.getPlayerState()) {
-          // video is unstarted
+          // unstarted
           case -1:
+            if (this.hasOverlay(vID)) this.removeOverlay(vID);
             video.playVideo();
+            break;
+          // paused
+          case 2:
+            if (!this.hasOverlay(vID)) this.setOverlay(vID);
+            if (overlay) {
+              if (this.hasOverlay(vID)) this.removeOverlay(vID);
+              video.playVideo();
+            }
             break;
           // video is cued
           case 5:
+            if (this.hasOverlay(vID)) this.removeOverlay(vID);
             video.playVideo();
             break;
         }
@@ -186,6 +221,7 @@ YTVideos.prototype = {
       else {
         switch (video.getPlayerState()) {
           case 1:
+            if (!this.hasOverlay(vID)) this.setOverlay(vID);
             video.pauseVideo();
             break;
         }
@@ -200,5 +236,15 @@ YTVideos.prototype = {
     eventObj.eventLabel = id + " | " + name;
     data.eventAction = eventName;
     dataLayer.push(data);
+  },
+  hasOverlay: function(id){
+    console.log("hasOverlay");
+    var presence = $('iframe[yt-id="'+id+'"]').siblings('.overlay').length > 0 ? true : false;
+    return presence;
+  },
+  removeOverlay: function(id){
+    console.log("removeOverlay");
+    $('iframe[yt-id="'+id+'"]').siblings('.overlay').remove();
   }
+
 }
