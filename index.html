@@ -4,37 +4,13 @@
     <title>YouTubeVideos</title>
     <meta charset="utf-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js" charset="utf-8"></script>
-    <script src="youtube.js" charset="utf-8"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-
-        // YouTube
-        youTubeVideos({
-          overlay: true,
-          callbacks: ['Ready','StateChange'],
-          onPlayerReady: function(event) {
-            // console.log("Video ID is: "+$(event.target.a).data('youtubeid'));
-            // console.log("Video state is: "+event.data);
-            // console.log("------------------------");
-          },
-          onPlayerStateChange: function(event) {
-            // console.log("Video ID is: "+$(event.target.a).data('youtubeid'));
-            // console.log("Video state is: "+event.data);
-            // console.log("------------------------");
-          }
-        });
-
-      });
-    </script>
-    <style media="screen">
-      html, html * { margin: 0; padding: 0; }
-      body { background-color: black; }
-      .video { padding: 30px; }
-    </style>
+    <script src="assets/js/YTVideos.js" charset="utf-8"></script>
+    <script src="assets/js/main.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
   </head>
   <body>
     <div class="video">
-      <div data-youtubeID="RZgOr6wvv9o" data-youtubeW="100%" data-youtubeH="250" class="ytvideo" player-id="ytvideoRZgOr6wvv9o" id="ytvideoRZgOr6wvv9o"></div>
+      <div class="yt" id="ytvideoRZgOr6wvv9o" yt-id="RZgOr6wvv9o" yt-w="100%" yt-h="auto"></div>
     </div>
   </body>
 </html>
