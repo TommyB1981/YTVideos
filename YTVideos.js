@@ -3,33 +3,30 @@ function YTVideos(options) {
 }
 
 YTVideos.prototype = {
+
+  // DEFAULT OPTIONS
   options: {
     hratio: 0.5625,
     videoWrapperClass: "videoWrapper",
     videoWrapperActiveClass: "on",
-    instance: null
+    instance: null,
+    tracking: false,
+    onAPIReady: Function(),
+    onPlayerReady: Function(),
+    onPlayerStateChange: Function()
   },
-  setOptions: function(options,callback){
-    console.log("setOptions");
-    this.options = $.extend({},this.options,options);
-    if (typeof callback == "function") callback();
-  },
+
+  // METHODS
   init: function(options){
-    console.log("init");
-    window[this.options.instance] = this;
-    this.setYouTubeIframeAPICallbacks();
+    // console.log("init");
     this.setOptions(options,function(){
+      window[this.options.instance] = this;
       this.checkYouTubeIframeAPI();
     }.bind(this));
   },
-  setYouTubeIframeAPICallbacks: function() {
-    var instanceName = this.options.instance;
-    window.onYouTubeIframeAPIReady = function(){window[instanceName].run();}
-    window.onPlayerReady = function(event){window[instanceName].fitH();}
-    window.onPlayerStateChange = function(event){window[instanceName].playerStateChange(event);}
-  },
   checkYouTubeIframeAPI: function(){
-    console.log("checkYouTubeIframeAPI");
+    // console.log("checkYouTubeIframeAPI");
+    this.setYouTubeIframeAPICallbacks();
     if (!window.yt) {
       (function() {
         var tag = document.createElement('script');
@@ -41,12 +38,17 @@ YTVideos.prototype = {
     else this.run();
   },
   run: function(){
-    console.log("run");
+    // console.log("run");
     this.injectIframes();
-    if (window.dataLayer) this.setTracking();
+    if (window.dataLayer && this.options.tracking) this.setTracking();
+  },
+  setOptions: function(options,callback){
+    // console.log("setOptions");
+    this.options = $.extend({},this.options,options);
+    if (typeof callback == "function") callback();
   },
   setTracking: function(){
-    console.log("setTracking");
+    // console.log("setTracking");
     this.dataLayerVideoModel = {
       'event': 'uaevent',
       'eventCategory': 'video',
@@ -55,16 +57,33 @@ YTVideos.prototype = {
     }
     this.tracking = true;
   },
+  setYouTubeIframeAPICallbacks: function() {
+    // console.log("setYouTubeIframeAPICallbacks");
+    var instanceName = this.options.instance;
+    window.onYouTubeIframeAPIReady = function(){
+      window[instanceName].run();
+      window[instanceName].triggerEvent('APIReady');
+    }
+    window.onPlayerReady = function(event){
+      window[instanceName].fitH();
+      window[instanceName].triggerEvent('PlayerReady',event);
+    }
+    window.onPlayerStateChange = function(event){
+      window[instanceName].playerStateChange(event);
+      window[instanceName].triggerEvent('PlayerStateChange',event);
+    }
+  },
+  triggerEvent: function(eventName,event){
+    // console.log("triggerEvent");
+    this.options['on'+eventName].call(this,event);
+  },
   injectIframes: function(){
-    console.log("injectIframe");
-    // Define video instances object
+    // console.log("injectIframe");
     window.ytvideos = {};
-    // Trigger video injections...
     $.each($('.yt'),function(vID,video){
       var id = $(video).attr('id');
       this.createVideo(video,id);
     }.bind(this));
-    // ...or listen to video togglers for video injections
     $.each($('.yt-toggler'),function(vID,video){
       $(video).on('click',function(){
         var id = $(video).attr('id');
@@ -73,7 +92,7 @@ YTVideos.prototype = {
     }.bind(this));
   },
   createVideo: function(video,id){
-    console.log("createVideo");
+    // console.log("createVideo");
     var idSuffix = $(video).attr('yt-suffix');
     var finalID = idSuffix ? id+idSuffix : id;
     var playerOptions = {
@@ -91,7 +110,7 @@ YTVideos.prototype = {
     window.ytvideos[$(video).attr('yt-id')] = new YT.Player(id, playerOptions);
   },
   getPlayerVars: function(vars) {
-    console.log("getPlayerVars");
+    // console.log("getPlayerVars");
     if (vars != undefined) {
       var playerVars = {};
       if (vars.indexOf(',') > 0 ) {
@@ -110,7 +129,7 @@ YTVideos.prototype = {
     else return vars;
   },
   fitH: function(){
-    console.log("fitH");
+    // console.log("fitH");
     var videos = $('iframe.yt');
     function fitVideos(){
       $.each(videos,function(vID,v){
@@ -122,7 +141,7 @@ YTVideos.prototype = {
     $(window).on('resize',fitVideos.call(this));
   },
   playerStateChange: function(event){
-    console.log("playerStateChange");
+    // console.log("playerStateChange");
     var id = $(event.target.a).attr('yt-id');
     switch (event.data) {
       // unstarted
@@ -148,7 +167,7 @@ YTVideos.prototype = {
     }
   },
   playPauseVideo: function(currentID,overlay){
-    console.log("playPauseVideo");
+    // console.log("playPauseVideo");
     $.each(window.ytvideos,function(vID,video){
       // manage play or pause on selected video
       if (currentID === vID) {
@@ -174,7 +193,7 @@ YTVideos.prototype = {
     });
   },
   track: function(eventObj,eventName){
-    console.log("track");
+    // console.log("track");
     var id = $(eventObj.target.a).data('yt-id');
     var name = $(eventObj.target.a).data('yt-name');
     var data = this.dataLayerVideoModel;
