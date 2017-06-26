@@ -37,7 +37,7 @@ YTVideos.prototype = {
       window[this.options.instance] = this;
       function start(){
         this.setWrapper(function(){
-          if (this.options.placeholder) {
+          if (this.options.placeholder.active) {
             this.setPlaceholder(function(){
               this.checkYouTubeIframeAPI();
             }.bind(this));
@@ -54,7 +54,7 @@ YTVideos.prototype = {
     }.bind(this));
   },
   checkYouTubeIframeAPI: function(){
-    // console.log("checkYouTubeIframeAPI");
+    console.log("checkYouTubeIframeAPI");
     this.setYouTubeIframeAPICallbacks();
     if (!window.yt) {
       (function() {
@@ -93,7 +93,7 @@ YTVideos.prototype = {
       });
       if (callback === "function") callback();
     }
-    function fitPlaceholder(hook,placeholder){
+    function setPlaceholder(hook,placeholder){
       var videoWrapper = $(hook).parents('.'+this.options.videoWrapperClass);
       videoWrapper.css({
         overflow: 'hidden',
@@ -119,24 +119,29 @@ YTVideos.prototype = {
     }
     // One placeholder for all videos
     if (!this.options.placeholder.ext) {
+      // console.log("unique placeholder");
       var placeholder = $('<img src="'+this.options.placeholder.url+'" class="'+this.options.placeholderClass+'" />');
       placeholder.on('load',function(){
         $.each($('div.yt'),function(hID,hook){
-          fitPlaceholder.call(this,hook,placeholder.clone());
+          setPlaceholder.call(this,hook,placeholder.clone());
         }.bind(this));
         placeholder.remove();
       }.bind(this));
     }
     // One placeholder per video
     else {
+      // console.log("different placeholders");
+      var placeholders = [];
       $.each($('div.yt'),function(hID,hook){
         var id = this.getID(hook);
-        var placeholder = $('<img src="'+this.options.placeholder.url+'_'+id+'.'+this.options.placeholder.ext+'" class="'+this.options.placeholderClass+'" />');
-        placeholder.on('load',function(){
-          fitPlaceholder.call(this,hook,placeholder);
-        }.bind(this));
-        placeholder.remove();
+        placeholders.push($('<img src="'+this.options.placeholder.url+'_'+id+'.'+this.options.placeholder.ext+'" class="'+this.options.placeholderClass+'" />'));
       }.bind(this));
+      $.each($('div.yt'),function(hID,hook){
+        placeholders[hID].on('load',function(){
+          setPlaceholder.call(this,hook,placeholders[hID].clone());
+        }.bind(this));
+      }.bind(this));
+      $(placeholders).remove();
     }
     if (typeof callback === "function") callback();
   },
@@ -278,7 +283,7 @@ YTVideos.prototype = {
     }.bind(this));
   },
   playerStateChange: function(event){
-    // console.log("playerStateChange");
+    // console.log("playerStateChange()");
     var id = $(event.target.a).attr('yt-id');
     switch (event.data) {
       // unstarted
@@ -311,14 +316,14 @@ YTVideos.prototype = {
     if (this.options.trackStates.indexOf(event.data) > -1) this.track(event,event.data);
   },
   playPauseVideo: function(currentID,overlay){
-    // console.log("playPauseVideo of "+currentID);
+    // console.log("playPauseVideo() of "+currentID);
     $.each(window.ytvideos,function(vID,video){
       // manage play or pause on selected video
       if (currentID === vID) {
         switch (video.getPlayerState()) {
           // unstarted
           case -1:
-            // console.log(currentID+' unstarted');
+            // onsole.log(currentID+' unstarted');
             if (this.hasOverlay(vID)) this.removeOverlay(vID);
             video.playVideo();
             break;
@@ -344,13 +349,11 @@ YTVideos.prototype = {
       }
       // otherwise checks other video to stop them if playing
       else {
-        switch (video.getPlayerState()) {
-          case 1:
-            // console.log('not '+currentID+' is playing');
-            if (!this.hasOverlay(vID)) this.setOverlay(vID);
-            this.fitVideo(vID);
-            video.pauseVideo();
-            break;
+        if (video.getPlayerState() === 1 && window.ytvideos[currentID].getPlayerState() === 1) {
+          // console.log(vID+' (not current) is playing while '+currentID+' (current) is playing');
+          if (!this.hasOverlay(vID)) this.setOverlay(vID);
+          this.fitVideo(vID);
+          video.pauseVideo();
         }
       }
     }.bind(this));

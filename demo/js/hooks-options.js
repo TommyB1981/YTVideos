@@ -8,7 +8,10 @@ $(document).ready(function(){
           'SCNCCuqQJvo',
           'NMSQVPkjQOU',
           'qUsQZj6h9H0'
-        ]
+        ],
+        options: {
+          vars: 'autoplay|1'
+        }
       }
     ]
   });

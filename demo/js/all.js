@@ -1,5 +1,11 @@
 $(document).ready(function(){
   new YTVideos({
+    overlay: true,
+    placeholder: {
+      active: true,
+      url: "img/placeholder.png",
+      ext: false
+    },
     hooks: [
       {
         target: 'div.video',
