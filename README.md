@@ -19,8 +19,8 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 ## Usage
 
 *YTVideos* can works:  
-1. With a combination of [HTML configuration](#html) + [Javascript configuration](#javascript)
-2. Just with the [Javascript configuration](#javascript) but only setting the `hooks` option
+1. With a combination of [HTML configuration](#html-configuration) + [Javascript configuration](#javascript-configuration)
+2. Just with the [Javascript configuration](#javascript-configuration) but only setting the `hooks` option
 3. With a combination of 1 and 2
 
 ### Javascript configuration
@@ -116,8 +116,7 @@ Default: `null`
   }
 ```
 
-> `Single mode` [demo](placeholder-one.html)
-  `multiple mode` configuration example:
+> `multiple mode` configuration example:
 
 ```js
   placeholder: {
@@ -128,7 +127,6 @@ Default: `null`
 ```
 
 > `multiple mode` placeholder images's final path example: *placeholder_123sdjhd51.png*.  
-  `multiple mode` [demo](placeholder-all.html)
 
 #### `placeholderClass`
 Type: `string`  
@@ -188,7 +186,7 @@ Default: `false`
 #### `hooks`
 Type: `array of objects`  
 Default: `null`  
-> If defined *YTVideos* will run in the HOOKS-MODE allowing a collection of "*hooks*" tags to be injected in the page DOM before the iframes injection phase with the corresponding iframe tags, even those directly inserted in the page's HTML code (see [HTML configuration](#html)).  
+> If defined *YTVideos* will run in the HOOKS-MODE allowing a collection of "*hooks*" tags to be injected in the page DOM before the iframes injection phase with the corresponding iframe tags, even those directly inserted in the page's HTML code (see [HTML configuration](#html-configuration)).  
 This option is meant to allow programmatical injection of *YTVideos* `hooks` in the page.
 
 **Object composition:**  
@@ -243,8 +241,6 @@ Type: `object`
     }
   });
 ```
-
-> Here a YTIAPI's callbacks catching [demo](demo/callbacks.html).
 
 ### HTML configuration
 > Directly insert in the page's HTML code *YTVideos* "*hooks*" tag to to run *YTVideos* instance behaviour.  
