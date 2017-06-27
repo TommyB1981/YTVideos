@@ -1,9 +1,9 @@
 # *YTVideos* plugin
-*YTVideos* is is a jQuery plugin/wrapper for YouTube Iframe API (YTIAPI from now on) to easy manage YouTube videos interaction in your web page.  
-*YTVideos* works overwriting in the DOM its "*hooks*" tags with their corresponding iframes tags.  
+*YTVideos* is a jQuery plugin/wrapper for the YouTube Iframe API (YTIAPI from now on) to easy manage YouTube videos interaction in your web page.  
+*YTVideos* works overwriting in the HTML its "*hooks*" tags with their corresponding iframes tags.  
 "*Hooks*" tags are just div tags with some attributes by which *YTVideos* will compile the iframes tags attributes.  
 This is called the "*iframes injection phase*".  
-*YTVideos* "*hooks*" can be directly inserted in the HTML of the page and also programmatically injected in the DOM with javascript through *YTVideos*'s' options.  
+*YTVideos* "*hooks*" can be directly inserted in the HTML of the web page and also programmatically injected into the DOM with javascript through appropriate *YTVideos*'s' options.  
 
 #### Dependencies
 YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery plugin which is already incorpored in *YTVideos*.js.
