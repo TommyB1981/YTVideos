@@ -8,7 +8,10 @@
 + [Overlay](#overlay) demo
 + [Single placeholder](#single-placeholder) demo
 + [Multiple placeholders](#multiple-placeholders) demo
- Basic usage
+
+---
+
+## Basic usage
 
 ### HTML
 
@@ -24,6 +27,8 @@
 ```js
   new YTVideos();
 ```
+
+---
 
 ## Event callbacks cathing
 
@@ -57,6 +62,7 @@
     }
   });
 ```
+---
 
 ## Programmatical hooks injection
 
@@ -89,6 +95,8 @@
   });
 ```
 
+---
+
 ## Overlay
 
 ### HTML
@@ -107,6 +115,8 @@
     overlay:true
   });
 ```
+
+---
 
 ## Single placeholder
 
@@ -130,6 +140,8 @@
     }
   });
 ```
+
+---
 
 ## Multiple placeholders
 
