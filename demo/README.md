@@ -1,5 +1,7 @@
 # *YTVideos* plugin demos
 
++ [Back to the main documentation](https://github.com/TommyB1981/YTVideos)
+
 ## Table of contents
 
 + [Basic usage](#basic-usage) demo
