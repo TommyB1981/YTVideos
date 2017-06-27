@@ -292,15 +292,3 @@ Type: `object`
   Every parameter/value must be separated by the `|` separator and every parameter/value couple must be separated with a `,`.  
   Example: `yt-vars="autoplay|1"`.  
   See here for the full list of [available parameters](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5&hl=it#Parameters) from YTIAPI documentation.
-
----
-
-## Demos
-
-+ [Basic usage](demo/base.html) demo
-+ [Event callbacks cathing](demo/callbacks.html) demo
-+ [Programmatical hooks injection](demo/hooks.html) demo
-+ [Programmatical hooks injection](demo/hooks-options.html) demo with options
-+ [Overlay](demo/overlay.html) demo
-+ [Single placeholder](demo/placeholder-one.html) demo
-+ [Multiple placeholders](demo/placeholder-all.html) demo
