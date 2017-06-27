@@ -1,14 +1,14 @@
-# *YTVideos* plugin #
+# *YTVideos* plugin
 *YTVideos* is is a jQuery plugin/wrapper for YouTube Iframe API (YTIAPI from now on) to easy manage YouTube videos interaction in your web page.  
 *YTVideos* works overwriting in the DOM its "*hooks*" tags with their corresponding iframes tags.  
 "*Hooks*" tags are just div tags with some attributes by which *YTVideos* will compile the iframes tags attributes.  
 This is called the "*iframes injection phase*".  
 *YTVideos* "*hooks*" can be directly inserted in the HTML of the page and also programmatically injected in the DOM with javascript through *YTVideos*'s' options.  
 
-#### Dependencies ####
+#### Dependencies
 YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery plugin which is already incorpored in *YTVideos*.js.
 
-## Table of contents ##
+## Table of contents
 + [Usage](#usage)
   + [Javascript configuration](#javascript)
   + [HTML configuration](#html)
@@ -16,7 +16,7 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 + [Events callbacks](#events)
 + [Demos](#demos)
 
-### Usage ###
+### Usage
 
 *YTVideos* can works:  
 1. With a combination of [HTML configuration](#html) + [Javascript configuration](#javascript)
@@ -32,17 +32,17 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 
 2. Set the `options` object (optional).
 
-##### Options #####
+##### Options
 All options are optionals and has to be set through the `options` object.
 
-**hratio**  
+##### hratio
 Type: `float`  
 Default: `0.5625`  
 > Sets the iframe height ratio compared to its width. This options is meant to calibrate the iframe tag's height to eliminate, as more as posssible, the upper and lower black strips that the YouTube player shows whose increase as the video height ratio in more distant to the original video height ratio.  
   To get the iframe tag's height *YTVideos* will mulitiply its width for `hratio`.  
   This height ratio will be applied even to the window resize event listener to maintain iframe tag dimensions responsivness.
 
-**instance**  
+###### instance  
 Type: `string`  
 Default: `ytInstance`  
 > When instatiated *YTVideos* instance is attached to the `window` object with the variable name given in the default `instance` option.  
@@ -94,14 +94,14 @@ Default:
 **`active`**  
 Type: `boolean`  
 Default: `false`  
-If set to `true` run *YTVideos* in PLACEHOLDER-MODE.
+> If set to `true` run *YTVideos* in PLACEHOLDER-MODE.
 
 `url`  
 Type: `string`  
 Default: `null`  
-In the `single mode` configuration specify the full placeholder image's path with filename and file extension included.  
-In the `multiple mode` *YTVideos* will append the video `yt-id` attribute value as a suffix to the placeholder image's file name, concatenating the file extension passed through the `ext` option (see below).  
-Cause of these premises just specify the common part of all placeholder images's path.
+> In the `single mode` configuration specify the full placeholder image's path with filename and file extension included.  
+  In the `multiple mode` *YTVideos* will append the video `yt-id` attribute value as a suffix to the placeholder image's file name, concatenating the file extension passed through the `ext` option (see below).  
+  Cause of these premises just specify the common part of all placeholder images's path.
 
 `ext`  
 Type: `string`  
