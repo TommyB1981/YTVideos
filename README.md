@@ -273,10 +273,10 @@ There are two ways the YTVideo "*iframe injection phase*" can works:
 
 ```html
   <ul>
-    <li><div class="yt" yt-w="100%" yt-id="YOUTUBEVIDEOIDCODE" yt-suffix=""></div></li>
+    <li><div class="yt" yt-w="100%" yt-id="YOUTUBEVIDEOIDCODE" yt-suffix="_someSuffix"></div></li>
   </ul>
   <div class="someWrappeInPage">
-    <div id="YOUTUBEVIDEOIDCODE"></div>
+    <div id="YOUTUBEVIDEOIDCODE_someSuffix"></div>
   </div>
 ```
 
