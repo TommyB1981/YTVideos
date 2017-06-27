@@ -9,8 +9,6 @@
 + [Single placeholder](#single-placeholder) demo
 + [Multiple placeholders](#multiple-placeholders) demo
 
----
-
 ## Basic usage
 
 ### HTML
