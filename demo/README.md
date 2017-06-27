@@ -26,8 +26,6 @@
   new YTVideos();
 ```
 
----
-
 ## Event callbacks cathing
 
 ### HTML
@@ -60,7 +58,6 @@
     }
   });
 ```
----
 
 ## Programmatical hooks injection
 
@@ -93,8 +90,6 @@
   });
 ```
 
----
-
 ## Overlay
 
 ### HTML
@@ -113,8 +108,6 @@
     overlay:true
   });
 ```
-
----
 
 ## Single placeholder
 
@@ -138,8 +131,6 @@
     }
   });
 ```
-
----
 
 ## Multiple placeholders
 
