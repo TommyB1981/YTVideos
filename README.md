@@ -23,7 +23,7 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 2. Just with the [Javascript configuration](#javascript) but only setting the `hooks` option
 3. With a combination of 1 and 2
 
-#### Javascript configuration ####
+#### Javascript configuration
 1. Instatiate *YTVideos* (mandatory):
 
 ```js
@@ -45,13 +45,13 @@ Default: `0.5625`
 **instance**  
 Type: `string`  
 Default: `ytInstance`  
-When instatiated *YTVideos* instance is attached to the `window` object with the variable name given in the default `instance` option.  
-Change this option to change the *YTVideos* instance's name as you wish.
+> When instatiated *YTVideos* instance is attached to the `window` object with the variable name given in the default `instance` option.  
+  Change this option to change the *YTVideos* instance's name as you wish.
 
 **resizeDelay**  
 Type: `integer` (milliseconds)  
 Default: `50`  
-The delay of `resizeEnd` event.
+> The delay of `resizeEnd` event.
 
 **videoWrapperClass**
 Type: `string`  
@@ -59,35 +59,39 @@ Default: `videoWrapper`
 The class of the HTML element with which YTVideo wraps the `hook` or the overwritten iframe tag.  
 Compiled HTML example:
 
-      <div class="videoWrapper">
-        <!-- hook or iframe tag here -->
-      <\/div>
+```html
+<div class="videoWrapper">
+  <!-- hook or iframe tag here -->
+<\/div>
+```
 
 **videoWrapperActiveClass**
 Type: `string`  
 Default: `on`  
-The class *YTVideos* adds to the video wrapper (see above) once the `hook` has been overwritten by the iframe tag because a new YT.Player object has been created.  
-This is just an utility class, it should be used, for example, to trigger transitions or animations.  
-See [YT.Player objects creation](https://developers.google.com/youtube/iframe_api_reference?hl=it#Example_Video_Player_Constructors) from YTIAPI documentation to deepen the argument if you want, but it's not necessary.  
+> The class *YTVideos* adds to the video wrapper (see above) once the `hook` has been overwritten by the iframe tag because a new YT.Player object has been created.  
+  This is just an utility class, it should be used, for example, to trigger transitions or animations.  
+  See [YT.Player objects creation](https://developers.google.com/youtube/iframe_api_reference?hl=it#Example_Video_Player_Constructors) from YTIAPI documentation to deepen the argument if you want, but it's not necessary.  
 
 **placeholder**  
 Type: `object`  
 Default:  
 
-    placeholder: {
-      active: false,
-      url: null,
-      ext: false
-    }
+```js
+  placeholder: {
+    active: false,
+    url: null,
+    ext: false
+  }
+```
 
-The configuration object to run *YTVideos* in the placeholder mode.  
-TVideos* allows for two configurations:
-1. Same placeholder image for all videos (`single mode`)
-2. the second to use one specific placeholder image for each video (`multiple mode`).  
+> The configuration object to run *YTVideos* in the placeholder mode.  
+  TVideos* allows for two configurations:
+  1. Same placeholder image for all videos (`single mode`)
+  2. the second to use one specific placeholder image for each video (`multiple mode`).  
 
-object keys:  
+**object keys:**
 
-`active`  
+**`active`**  
 Type: `boolean`  
 Default: `false`  
 If set to `true` run *YTVideos* in PLACEHOLDER-MODE.
