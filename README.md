@@ -16,7 +16,7 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 + [Events callbacks](#events-callbacks)
 + [Demos](#demos)
 
-### Usage
+## Usage
 
 *YTVideos* can works:  
 1. With a combination of [HTML configuration](#html) + [Javascript configuration](#javascript)
@@ -32,7 +32,7 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 
 2. Set the `options` object (optional).
 
-#### Options
+## Options
 All options are optionals and has to be set through the `options` object.
 
 #### `hratio`
@@ -223,7 +223,7 @@ Type: `object`
   ]
 ```
 
-### Events callbacks
+## Events callbacks
 > YTIAPI triggers some callbacks functions under the `window` scope when the corresponding YTIAPI event is triggered.  
   These callbacks funtions names are derived from this pattern: `onPlayer[Eventname]` where "*EventName*" is the name of the event triggered by YTIAPI.  
   *YTVideos* allows to catch these callback functions by passing their name as a property of the `options` object with the callback function as its value.  
@@ -295,7 +295,7 @@ Type: `object`
 
 ---
 
-### Demos
+## Demos
 
 + [Basic usage](demo/base.html) demo
 + [Event callbacks cathing](demo/callbacks.html) demo
