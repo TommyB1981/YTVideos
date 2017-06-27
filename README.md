@@ -255,8 +255,8 @@ Type: `object`
 #### `yt-id` and `id` attributes (mandatory):  
 > `yt-id` and `id` attributes are used to estabilish an association between the `hook` tag (by `yt-id` attribute) and the DOM element which must be overwritten with the iframe tag (defined by the `id` attribute).  
 There are two ways the YTVideo "*iframe injection phase*" can works:  
-  1. The *basic approach*
-  2. The *suffix approach*
+> - The *basic approach*
+> - The *suffix approach*
 
 > In the *basic approach* `yt-id` and `id` attributes's values match, allowing the `hook` tag to be overwritten by the corresponding iframe tag.    
   For the *suffix approach* see below at `yt-suffix` attribute.
