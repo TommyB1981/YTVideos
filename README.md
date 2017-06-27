@@ -266,7 +266,7 @@ There are two ways the YTVideo "*iframe injection phase*" can works:
 #### `yt-track` attribute (optional):  
 > Define this attribute in only if *YTVideos* in running in tracking mode
 
-#### `yt-suffix`  
+#### `yt-suffix` (optional)  
 > Set this attribute to make the "*iframe injection phase*" works with the alternative *suffix approach*.  
   This attribute defines a suffix that will be suffixed to `yt-id`'s value to get a final id value through which overwrite with the corresponding iframe tag a DOM element other than the `hook` tag,  passing in to it the final id value through the `id` attribute.  
   Example of `yt-suffix` approach:
@@ -288,7 +288,7 @@ There are two ways the YTVideo "*iframe injection phase*" can works:
   </div>
 ```
 
-#### `yt-vars`  
+#### `yt-vars` (optional)  
 > Through this attribute is possible to set all available parameters to the iframe tag that *YTVideos* is going to instantiate during the *iframe injection phase*.  
   Parameters must be set using this syntax: `parameter1|value1,parameter2|value2`.  
   Every parameter/value must be separated by the `|` separator and every parameter/value couple must be separated with a `,`.  
