@@ -1,7 +1,7 @@
 $(document).ready(function(){
   if ($('[class*="yt"]').length > 0) {
     new YTVideos({
-      onAPIReady:function(){
+      onYouTubeIframeAPIReady:function(){
         console.log("YouTube Iframe API is ready");
         console.log("--------------------");
       },

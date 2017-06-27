@@ -10,22 +10,27 @@ YTVideos.prototype = {
   // DEFAULT OPTIONS
   options: {
     hratio: 0.5625,
-    resizeendDelay: 50,
-    videoWrapperClass: "videoWrapper",
-    videoWrapperActiveClass: "on",
-    placeholderClass: "placeholder",
-    hiderClass: "yt-hider",
     instance: "ytInstance",
-    tracking: false,
-    trackStates: ["playing"],
-    overlay: false,
-    injeck: null,
+    resizeendDelay: 50,
+    // placeholder mode
     placeholder: {
       ext: false,
       url: null,
       active: false
     },
-    onAPIReady: Function(),
+    placeholderClass: "placeholder",
+    // Google Analitics
+    tracking: false,
+    trackStates: ["playing"],
+    // overlay mode
+    overlay: false,
+    // inject mode
+    injeck: null,
+    // classes
+    videoWrapperClass: "videoWrapper",
+    videoWrapperActiveClass: "on",
+    // YouTube Iframe API events callbacks
+    onYouTubeIframeAPIReady: Function(),
     onPlayerReady: Function(),
     onPlayerStateChange: Function()
   },
@@ -54,7 +59,7 @@ YTVideos.prototype = {
     }.bind(this));
   },
   checkYouTubeIframeAPI: function(){
-    console.log("checkYouTubeIframeAPI");
+    // console.log("checkYouTubeIframeAPI");
     this.setYouTubeIframeAPICallbacks();
     if (!window.yt) {
       (function() {
@@ -161,7 +166,7 @@ YTVideos.prototype = {
     window.onYouTubeIframeAPIReady = function(){
       // console.log("onYouTubeIframeAPIReady");
       window[instanceName].run();
-      window[instanceName].triggerEvent('APIReady');
+      window[instanceName].triggerEvent('YouTubeIframeAPIReady');
     }
     window.onPlayerReady = function(event){
       // console.log("onPlayerReady of "+$(event.target.a).attr('yt-id'));
@@ -267,7 +272,7 @@ YTVideos.prototype = {
     var playerVars = this.getPlayerVars($(video).attr('yt-vars'));
     if (playerVars != "") playerOptions.playerVars = playerVars;
     $(video).parents('.'+this.options.videoWrapperClass).addClass(this.options.videoWrapperActiveClass);
-    window.ytvideos[$(video).attr('yt-id')] = new YT.Player(id, playerOptions);
+    window.ytvideos[$(video).attr('yt-id')] = new YT.Player(finalID, playerOptions);
   },
   fitVideo: function(id){
     var video = $('iframe[yt-id="'+id+'"]');
@@ -364,8 +369,8 @@ YTVideos.prototype = {
     var track = $(eventObj.target.a).data('yt-track');
     var data = this.dataLayerVideoModel;
     var eventLabel = (track) ? track : id;
-    eventObj.eventLabel = id + " | " + eventLabel;
     data.eventAction = eventName;
+    data.eventLabel = id + " | " + eventLabel;
     dataLayer.push(data);
   },
   hasOverlay: function(id){
