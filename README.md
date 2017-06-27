@@ -14,7 +14,7 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
   + [HTML configuration](#html-configuration)
 + [Options](#options)
 + [Events callbacks](#events-callbacks)
-+ [Demos](#demos)
++ [Demos](https://github.com/TommyB1981/YTVideos/blob/master/demo/README.md)
 
 ## Usage
 
