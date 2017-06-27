@@ -289,7 +289,7 @@ There are two ways the YTVideo "*iframe injection phase*" can works:
 ```
 
 #### `yt-vars` (optional)  
-> Through this attribute is possible to set all available parameters to the iframe tag that *YTVideos* is going to instantiate during the *iframe injection phase*.  
+> Through this attribute is possible to set all available parameters to the iframe tag that *YTVideos* is going to overwrite to the *hooks* tags during the *iframe injection phase*.  
   Parameters must be set using this syntax: `parameter1|value1,parameter2|value2`.  
   Every parameter/value must be separated by the `|` separator and every parameter/value couple must be separated with a `,`.  
   Example: `yt-vars="autoplay|1"`.  
