@@ -23,7 +23,7 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 2. Just with the [Javascript configuration](#javascript) but only setting the `hooks` option
 3. With a combination of 1 and 2
 
-#### Javascript configuration
+### Javascript configuration
 1. Instatiate *YTVideos* (mandatory):
 
 ```js
@@ -32,17 +32,17 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 
 2. Set the `options` object (optional).
 
-##### Options
+#### Options
 All options are optionals and has to be set through the `options` object.
 
-##### hratio
+#### hratio
 Type: `float`  
 Default: `0.5625`  
 > Sets the iframe height ratio compared to its width. This options is meant to calibrate the iframe tag's height to eliminate, as more as posssible, the upper and lower black strips that the YouTube player shows whose increase as the video height ratio in more distant to the original video height ratio.  
   To get the iframe tag's height *YTVideos* will mulitiply its width for `hratio`.  
   This height ratio will be applied even to the window resize event listener to maintain iframe tag dimensions responsivness.
 
-###### instance  
+#### instance  
 Type: `string`  
 Default: `ytInstance`  
 > When instatiated *YTVideos* instance is attached to the `window` object with the variable name given in the default `instance` option.  
