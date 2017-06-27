@@ -202,7 +202,7 @@ Type: `array of strings`
 #### `options`  
 Type: `object`  
 > A key-value pairs object in which the key will be the *YTVideos* `hook`'s' attribute to add to it (which will be prefixed with "*yt-*"), while the value will be the attribute's value.  
-  Example of `inject` mode configuration with options:
+  Example of *Hooks mode* configuration with options:
 
 ```js
   hooks: [
