@@ -18,8 +18,6 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 
 ### Usage ###
 
-<div id="usage"></div>
-
 *YTVideos* can works:  
 1. With a combination of [HTML configuration](#html) + [Javascript configuration](#javascript)
 2. Just with the [Javascript configuration](#javascript) but only setting the `hooks` option
@@ -28,7 +26,9 @@ YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery pl
 #### Javascript configuration ####
 1. Instatiate *YTVideos* (mandatory):
 
-        new YTVideos(options);
+```js
+  new YTVideos(options);
+```
 
 2. Set the `options` object (optional).
 
