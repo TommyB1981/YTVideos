@@ -3,7 +3,7 @@
 ## Table of contents
 
 + [Basic usage](#basic-usage) demo
-+ [Event callbacks cathing](#event-callbacks-cathing) demo
++ [Event callbacks catching](#event-callbacks-cathing) demo
 + [Programmatical hooks injection](programmatical-hooks-injection) demo
 + [Overlay](#overlay) demo
 + [Single placeholder](#single-placeholder) demo
@@ -26,7 +26,7 @@
   new YTVideos();
 ```
 
-## Event callbacks cathing
+## Event callbacks catching
 
 ### HTML
 
