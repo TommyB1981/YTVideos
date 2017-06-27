@@ -226,7 +226,7 @@ Type: `object`
   These callbacks funtions names are derived from this pattern: `onPlayer[Eventname]` where "*EventName*" is the name of the event triggered by YTIAPI.  
   *YTVideos* allows to catch these callback functions by passing their name as a property of the `options` object with the callback function as its value.  
   All the callbacks passed to the `options` object (except the `onYouTubeIframeAPIReady` one) get the YTIAPI `event` object as the only parameter and have their `this` keyword binded the *YTVideos* instance `this` reference.  
-  Example of a YTIAPI's callback catching:
+  Example of a YTIAPI's callback's catching:
 
 ```js  
   new YTVideos({
@@ -243,11 +243,11 @@ Type: `object`
 ```
 
 ### HTML configuration
-> Directly insert in the page's HTML code *YTVideos* "*hooks*" tag to to run *YTVideos* instance behaviour.  
-  *YTVideos* "*hooks*" must be formatted this way:
+> Directly insert in the web page's HTML code *YTVideos* *hooks* tags.  
+  *YTVideos* *hooks* tags must be formatted this way:
 
 ```html
-  <div class="yt" yt-w="100%" yt-id="[YOUTUBEVIDEOIDCODE]" id="[YOUTUBEVIDEOIDCODE]"></div>
+  <div class="yt" yt-w="100%" yt-id="YOUTUBEVIDEOIDCODE" id="YOUTUBEVIDEOIDCODE"></div>
 ```
 
 > `YOUTUBEVIDEOIDCODE` must be a valid YoutTube video id.
@@ -258,7 +258,7 @@ There are two ways the YTVideo "*iframe injection phase*" can works:
 > - The *basic approach*
 > - The *suffix approach*  
 > In the *basic approach* `yt-id` and `id` attributes's values match, allowing the `hook` tag to be overwritten by the corresponding iframe tag.    
-  For the *suffix approach* see below at `yt-suffix` attribute.
+> For the *suffix approach* see below at `yt-suffix` attribute.
 
 #### `yt-w` attribute (mandatory):  
 > Define it as "100%" in a responsive context, otherwise another valid value's unit for a non-responsive context.
