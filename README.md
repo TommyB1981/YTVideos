@@ -38,9 +38,9 @@ All options are optionals and has to be set through the `options` object.
 **hratio**  
 Type: `float`  
 Default: `0.5625`  
-Sets the iframe height ratio compared to its width. This options is meant to calibrate the iframe tag's height to eliminate, as more as posssible, the upper and lower black strips that the YouTube player shows whose increase as the video height ratio in more distant to the original video height ratio.  
-To get the iframe tag's height *YTVideos* will mulitiply its width for `hratio`.  
-This height ratio will be applied even to the window resize event listener to maintain iframe tag dimensions responsivness.
+> Sets the iframe height ratio compared to its width. This options is meant to calibrate the iframe tag's height to eliminate, as more as posssible, the upper and lower black strips that the YouTube player shows whose increase as the video height ratio in more distant to the original video height ratio.  
+  To get the iframe tag's height *YTVideos* will mulitiply its width for `hratio`.  
+  This height ratio will be applied even to the window resize event listener to maintain iframe tag dimensions responsivness.
 
 **instance**  
 Type: `string`  
