@@ -257,7 +257,6 @@ Type: `object`
 There are two ways the YTVideo "*iframe injection phase*" can works:  
 > - The *basic approach*
 > - The *suffix approach*
-
 > In the *basic approach* `yt-id` and `id` attributes's values match, allowing the `hook` tag to be overwritten by the corresponding iframe tag.    
   For the *suffix approach* see below at `yt-suffix` attribute.
 
