@@ -1,3 +1,8 @@
+/*!
+/* YTVideos.js - https://github.com/tommaso-bissoli/YTVideos
+/* YTVideos is a jQuery plugin/wrapper for the YouTube Iframe API (YTIAPI from now on) to easy manage YouTube videos interaction in your web page.
+*/
+
 function YTVideos(options) {
   this.init(options);
 }
