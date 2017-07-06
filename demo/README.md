@@ -1,4 +1,4 @@
-# *YTVideos* plugin demos
+# *YTVideos* plugin - Demos
 
 + [Back to the main documentation](https://github.com/TommyB1981/YTVideos)
 
@@ -11,9 +11,9 @@
 + [Single placeholder](#single-placeholder) demo
 + [Multiple placeholders](#multiple-placeholders) demo
 
-## Basic usage
+## Basic usage [^][top]
 
-### HTML
+### HTML [^][top]
 
 ```html
   <body>
@@ -22,13 +22,13 @@
   </body>
 ```
 
-### Javascript
+### Javascript [^][top]
 
 ```js
   new YTVideos();
 ```
 
-## Event callbacks catching
+## Event callbacks catching [^][top]
 
 ### HTML
 
@@ -61,7 +61,7 @@
   });
 ```
 
-## Programmatical hooks injection
+## Programmatical hooks injection [^][top]
 
 ### HTML
 
@@ -92,7 +92,7 @@
   });
 ```
 
-## Overlay
+## Overlay [^][top]
 
 ### HTML
 
@@ -111,7 +111,7 @@
   });
 ```
 
-## Single placeholder
+## Single placeholder [^][top]
 
 ### HTML
 
@@ -134,7 +134,7 @@
   });
 ```
 
-## Multiple placeholders
+## Multiple placeholders [^][top]
 
 ### HTML
 
@@ -156,3 +156,5 @@
     }
   });
 ```
+
+[top]: #table-of-contents
