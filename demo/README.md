@@ -6,7 +6,7 @@
 
 + [Basic usage](#basic-usage) demo
 + [Event callbacks catching](#event-callbacks-cathing) demo
-+ [Programmatical hooks injection](programmatical-hooks-injection) demo
++ [Programmatical hooks injection](#programmatical-hooks-injection) demo
 + [Overlay](#overlay) demo
 + [Single placeholder](#single-placeholder) demo
 + [Multiple placeholders](#multiple-placeholders) demo
