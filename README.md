@@ -6,6 +6,9 @@ This is called the "**iframes injection phase**".
 *YTVideos* "*hooks*" can be directly inserted in the HTML of the web page and also programmatically injected into the DOM with javascript through the appropriate *YTVideos*'s' option.  
 
 #### Dependencies
+jQuery 1.7+.
+
+#### Resizeend.js
 YTVideo uses [Resizeend](https://github.com/nielse63/jquery.resizeend) jQuery plugin which is already incorpored in *YTVideos*.js.
 
 ## Table of contents
