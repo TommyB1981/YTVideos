@@ -103,7 +103,7 @@ Default: `false`
 Type: `string`  
 Default: `null`  
 > In the *single-mode* configuration specify the full placeholder image's path with filename and file extension included.  
-  In the *multiple-mode* *YTVideos* will append the video `yt-id` attribute value as a suffix to the placeholder image's file name, concatenating the file extension passed through the `ext` option (see below).  
+  In the *multiple-mode* *YTVideos* will append the video `yt-name` attribute value as a suffix to the placeholder image's file name, concatenating the file extension passed through the `ext` option (see below).  
   Cause of these premises just specify the common part of all placeholder images's path.
 
 #### `ext`

@@ -41,7 +41,8 @@ var $q = jQuery.noConflict();
       // YouTube Iframe API events callbacks
       onYouTubeIframeAPIReady: Function(),
       onPlayerReady: Function(),
-      onPlayerStateChange: Function()
+      onPlayerStateChange: Function(),
+      onPlaceholderSet: Function()
     },
 
     // METHODS
@@ -66,6 +67,11 @@ var $q = jQuery.noConflict();
         else start.call(this);
       }.bind(this));
     },
+    run: function(){
+      // console.log("run");
+      this.injectIframes();
+      if (window.dataLayer && this.options.tracking) this.setTracking();
+    },
     checkYouTubeIframeAPI: function(){
       // console.log("checkYouTubeIframeAPI");
       this.setYouTubeIframeAPICallbacks();
@@ -78,11 +84,6 @@ var $q = jQuery.noConflict();
         })();
       }
       else this.run();
-    },
-    run: function(){
-      // console.log("run");
-      this.injectIframes();
-      if (window.dataLayer && this.options.tracking) this.setTracking();
     },
     setOptions: function(options,callback){
       // console.log("setOptions");
@@ -104,6 +105,7 @@ var $q = jQuery.noConflict();
           'padding-top': placeholder.height(),
           position: 'relative'
         });
+        this.triggerEvent('PlaceholderSet');
         if (callback === "function") callback();
       }
       function setPlaceholder(hook,placeholder){
@@ -122,13 +124,19 @@ var $q = jQuery.noConflict();
         $(hook).css({
           position: 'absolute',
           left: 0,
-          top: 0
+          top: 0,
+          width: "100%"
         });
         videoWrapper.css({
-          overflow: 'inherit',
+          overflow: 'hidden',
           height: 'inherit'
         });
         $(window).resizeend(this.options.resizeend,function(){fitPlaceholderH.call(this,placeholder,videoWrapper);}.bind(this));
+      }
+      function setPlaceholders(){
+        $.each($('div.yt'),function(hID,hook){
+          setPlaceholder.call(this,hook,$('<img src="'+placeholders[hID]+'">'));
+        }.bind(this));
       }
       // One placeholder for all videos
       if (!this.options.placeholder.ext) {
@@ -145,13 +153,16 @@ var $q = jQuery.noConflict();
       else {
         // console.log("different placeholders");
         var placeholders = [];
+        var imgCounter = 0;
         $.each($('div.yt'),function(hID,hook){
-          var id = this.getID(hook);
-          placeholders.push($('<img src="'+this.options.placeholder.url+'_'+id+'.'+this.options.placeholder.ext+'" class="'+this.options.placeholderClass+'" />'));
+          var name = $(hook).attr('yt-name');
+          placeholders.push(this.options.placeholder.url+'_'+name+'.'+this.options.placeholder.ext);
         }.bind(this));
-        $.each($('div.yt'),function(hID,hook){
-          placeholders[hID].on('load',function(){
-            setPlaceholder.call(this,hook,placeholders[hID].clone());
+        $.each(placeholders,function(id,url){
+          var img = new Image();
+          $(img).load(url, function(){
+            imgCounter ++;
+            if (imgCounter === placeholders.length) setPlaceholders.call(this);
           }.bind(this));
         }.bind(this));
         $(placeholders).remove();
@@ -350,13 +361,13 @@ var $q = jQuery.noConflict();
           switch (video.getPlayerState()) {
             // unstarted
             case -1:
-              // onsole.log(currentID+' unstarted');
+              // console.log(currentID+' unstarted');
               if (this.hasOverlay(vID)) this.removeOverlay(vID);
               video.playVideo();
               break;
             // played
             case 1:
-              // onsole.log(currentID+' unstarted');
+              // console.log(currentID+' unstarted');
               if (this.hasOverlay(vID)) this.removeOverlay(vID);
               video.playVideo();
               break;
