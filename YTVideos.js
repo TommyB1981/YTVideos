@@ -99,10 +99,14 @@ var $q = jQuery.noConflict();
     },
     setPlaceholder: function(callback){
       // console.log("setPlaceholder");
+      var placeholders_urls = [];
+      var imgCounter = 0;
+      // console.log("setPlaceholder");
       function fitPlaceholderH(placeholder,videoWrapper,callback){
-        placeholder.height(placeholder.width()*this.options.hratio);
+        var h = placeholder.width()*this.options.hratio;
+        placeholder.height(h);
         videoWrapper.css({
-          'padding-top': placeholder.height(),
+          'padding-top': h,
           position: 'relative'
         });
         this.triggerEvent('PlaceholderSet');
@@ -115,27 +119,31 @@ var $q = jQuery.noConflict();
           height: 0
         });
         $(hook).append(placeholder);
-        var placeholder = $(hook).find('img');
+        var placeholder = $(hook).find('.placeholder');
         placeholder.css({
           display: "block",
           width: "100%"
         });
-        fitPlaceholderH.call(this,placeholder,videoWrapper);
+        fitPlaceholderH.call(this,placeholder,videoWrapper,$(hook));
         $(hook).css({
           position: 'absolute',
           left: 0,
           top: 0,
-          width: "100%"
+          width: "100%",
+          "z-index": 100
         });
         videoWrapper.css({
-          overflow: 'hidden',
+          overflow: 'visible',
           height: 'inherit'
         });
+        $(placeholder).on('click',function(){
+          this.createVideo(hook,this.getID(hook));
+        }.bind(this));
         $(window).resizeend(this.options.resizeend,function(){fitPlaceholderH.call(this,placeholder,videoWrapper);}.bind(this));
       }
       function setPlaceholders(){
         $.each($('div.yt'),function(hID,hook){
-          setPlaceholder.call(this,hook,$('<img src="'+placeholders[hID]+'">'));
+          setPlaceholder.call(this,hook,$('<img src="'+placeholders_urls[hID]+'" class="'+this.options.placeholderClass+'">'));
         }.bind(this));
       }
       // One placeholder for all videos
@@ -152,20 +160,17 @@ var $q = jQuery.noConflict();
       // One placeholder per video
       else {
         // console.log("different placeholders");
-        var placeholders = [];
-        var imgCounter = 0;
         $.each($('div.yt'),function(hID,hook){
           var name = $(hook).attr('yt-name');
-          placeholders.push(this.options.placeholder.url+'_'+name+'.'+this.options.placeholder.ext);
+          placeholders_urls.push(this.options.placeholder.url+'_'+name+'.'+this.options.placeholder.ext);
         }.bind(this));
-        $.each(placeholders,function(id,url){
+        $.each(placeholders_urls,function(id,url){
           var img = new Image();
           $(img).load(url, function(){
             imgCounter ++;
-            if (imgCounter === placeholders.length) setPlaceholders.call(this);
+            if (imgCounter === placeholders_urls.length) setPlaceholders.call(this);
           }.bind(this));
         }.bind(this));
-        $(placeholders).remove();
       }
       if (typeof callback === "function") callback();
     },
@@ -272,17 +277,15 @@ var $q = jQuery.noConflict();
       if (typeof callback === "function") callback();
     },
     injectIframes: function(){
-      // console.log("injectIframe");
       window.ytvideos = {};
+      // if placeholder but with autoplay
       if (this.options.placeholder.active) {
         $.each($('div.yt'),function(hID,hook){
           var playerVars = this.getPlayerVars($(hook).attr('yt-vars'));
           if (playerVars  && playerVars.autoplay) this.createVideo(hook,this.getID(hook));
-          $(hook).find('img').on('click',function(){
-            this.createVideo(hook,this.getID(hook));
-          }.bind(this));
         }.bind(this));
       }
+      // without placeholder
       else {
         $.each($('div.yt'),function(hID,hook){
           this.createVideo(hook,this.getID(hook));
@@ -290,7 +293,6 @@ var $q = jQuery.noConflict();
       }
     },
     createVideo: function(video,id){
-      // console.log("createVideo");
       var idSuffix = $(video).attr('yt-suffix');
       var finalID = idSuffix ? id+idSuffix : id;
       var playerOptions = {
